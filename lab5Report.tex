@@ -1,0 +1,185 @@
+\documentclass{article}
+
+% Language setting
+\usepackage[english]{babel}
+
+% Set page size and margins
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{Lab 5: React Native TODO List}
+\author{Karthik Mangineni}
+
+\begin{document}
+\maketitle
+
+\section*{Task 1: React Native TODO List}
+
+\subsection*{(1) Screenshots of Your App}
+\begin{itemize}
+    \item \textbf{Screenshots:}
+    \begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{emulator.png}
+        \caption{App running on an emulator.}
+        \label{fig:emulator}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=0.4\linewidth]{physicalDevice.png}
+        \caption{App running on a physical device.}
+        \label{fig:physical_device}
+    \end{subfigure}
+    \caption{Screenshots of the app running on an emulator and a physical device.}
+    \label{fig:app_screenshots}
+    \end{figure}
+    \item \textbf{Observed Differences:}
+    \begin{itemize}
+        \item The app ran slower on the emulator, and touch gestures were simulated using the mouse, which felt unnatural.
+        \item The physical device provided a more fluid experience with real touch interactions.
+        \item Colors and brightness appeared more accurate on the physical device compared to the emulator.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{(2) Setting Up an Emulator}
+\begin{itemize}
+    \item \textbf{Steps to Set Up an Emulator:}
+    \begin{enumerate}
+        \item Opened Android Studio and selected \textbf{Virtual Device Manager}.
+        \item Created a new virtual device using \textbf{API Level 35}.
+        \item Adjusted settings such as RAM allocation and screen orientation.
+        \item Started the emulator by clicking the \textbf{Play} button.
+    \end{enumerate}
+    \item \textbf{Challenges Faced:}
+    \begin{itemize}
+        \item Downloading the system image for API Level 35 took longer due to a slow internet connection.
+        \item The emulator initially failed to start due to insufficient RAM allocation. This was resolved by increasing RAM in the AVD Manager settings.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{(3) Running the App on a Physical Device Using Expo}
+\begin{itemize}
+    \item \textbf{Steps to Run on a Physical Device:}
+    \begin{enumerate}
+        \item Installed the \textbf{Expo Go} app on the phone.
+        \item Ensured both the phone and computer were connected to the same Wi-Fi network.
+        \item Ran \texttt{npx expo start} on the terminal to start the development server and scanned the displayed QR code using the Expo Go app.
+    \end{enumerate}
+    \item \textbf{Troubleshooting Steps:}
+    \begin{itemize}
+        \item Encountered an issue where the Expo Go app couldn’t detect the app because the devices were on different networks.
+        \item Resolved the issue by reconnecting both devices to the same network and restarting the Expo server.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{(4) Comparison of Emulator vs. Physical Device}
+\begin{itemize}
+    \item \textbf{Advantages of an Emulator:}
+    \begin{itemize}
+        \item Quick setup and accessible without physical hardware.
+        \item Suitable for testing basic app functionalities.
+    \end{itemize}
+    \item \textbf{Disadvantages of an Emulator:}
+    \begin{itemize}
+        \item Slower performance compared to physical devices.
+        \item Limited ability to test hardware-dependent features like touch gestures and sensors.
+    \end{itemize}
+    \item \textbf{Advantages of a Physical Device:}
+    \begin{itemize}
+        \item Provides an authentic user experience with accurate touch interactions.
+        \item Enables testing of hardware features like camera and sensors.
+    \end{itemize}
+    \item \textbf{Disadvantages of a Physical Device:}
+    \begin{itemize}
+        \item Requires physical hardware, which may not always be accessible.
+        \item Setup can be time-consuming, especially for debugging permissions and network connectivity.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{(5) Troubleshooting a Common Error}
+\begin{itemize}
+    \item \textbf{Error Encountered:} The Expo Go app on the physical device failed to detect the app.
+    \item \textbf{Cause of the Error:} The computer and phone were not on the same Wi-Fi network.
+    \item \textbf{Resolution:}
+    \begin{enumerate}
+        \item Reconnected both the computer and phone to the same Wi-Fi network.
+        \item Restarted the Expo server using \texttt{npx expo start}.
+        \item Scanned the QR code again using the Expo Go app, which resolved the issue.
+    \end{enumerate}
+\end{itemize}
+
+\section*{2.7 Extending Functionality}
+
+\subsection*{(a) Mark Tasks as Complete}
+\begin{itemize}
+    \item \textbf{Implementation:}
+    \begin{itemize}
+        \item Added a \texttt{markAsCompleted} function that toggles the \texttt{status} property of a task to \texttt{true}.
+        \item Styled completed tasks using a strikethrough effect with the following code:
+\begin{verbatim}
+textDecorationLine: item.status ? 'line-through' : 'none'
+\end{verbatim}
+    \end{itemize}
+    \item \textbf{Screenshot:}
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.2\linewidth]{mark.png}
+    \caption{Task marked as completed with strikethrough styling.}
+    \end{figure}
+\end{itemize}
+
+\subsection*{(b) Persist Data Using AsyncStorage}
+\begin{itemize}
+    \item \textbf{Implementation:}
+    \begin{itemize}
+        \item Used \texttt{AsyncStorage.setItem} to store tasks and \texttt{AsyncStorage.getItem} to retrieve them when the app is loaded.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{(c) Edit Tasks}
+\begin{itemize}
+    \item \textbf{Implementation:}
+    \begin{itemize}
+        \item Used an \texttt{isEditClicked} state to track when a user is editing a task.
+        \item Modified the task in the state array upon clicking the \texttt{Done} button.
+         \item  The editTaskFun function is responsible for initiating the editing process of a task. It searches the tasks array for a task with the specified taskId using the find() method. If the task is found, it updates the editTask state with the selected task, sets the task state to the current text of the task, and toggles the isEditClicked state to true to enable the editing UI. If the task does not exist, it triggers an alert notifying the user. On the other hand, the editDone function is used to save the changes made to the task. It checks if an editTask exists and ensures that the task text is not empty after trimming. The function then updates the tasks array by replacing the text of the edited task using the map() method, clears the input field, and resets isEditClicked to false to close the editing UI. If no editTask is found, it displays an alert to inform the user that the task does not exist. Together, these functions manage the editing flow of tasks, ensuring a seamless user experience.
+    \end{itemize}
+    \item \textbf{Screenshot:}
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.2\linewidth]{edit.png}
+    \caption{Editing a task in the TODO list app.}
+    \end{figure}
+\end{itemize}
+
+\subsection*{(d) Add Animations}
+\begin{itemize}
+    \item \textbf{Implementation:}
+    \begin{itemize}
+        \item Added a fade-in effect using the Animated API for new tasks.
+        \item The animation transitioned the opacity of a task from 0 to 1 over 500ms.
+    \end{itemize}
+    \item \textbf{Screenshot:}
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.2\linewidth]{fade.png}
+    \caption{Fade-in animation for task addition.}
+    \end{figure}
+\end{itemize}
+
+\section*{Acknowledgment}
+I utilized ChatGPT to learn about and implement AsyncStorage in my project. This guidance helped me understand how to persist data in a React Native application effectively.
+
+\section*{GitHub Repository}
+The complete project code, including the LaTeX file and the PDF report, can be accessed via the public GitHub repository:
+
+\href{https://github.com/rcAsironman/sample-To-Do-app.git}{https://github.com/rcAsironman/sample-To-Do-app.git}.
+\end{document}
